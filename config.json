@@ -1,0 +1,17 @@
+{
+    "auth_service": "google",
+    "username": "weijiejason123",
+    "password": "69580663",
+    "location": "301 Battery St, San Francisco, CA",
+    "gmapkey": "AIzaSyArHT2a-03wfT1kkqQEecJzufK9AT5RE2M",
+    "max_steps": 5,
+    "mode": "poke",
+    "walk": 0,
+    "debug": false,
+    "test": false,
+    "initial_transfer": 0,
+    "location_cache": true,
+    "distance_unit": "km",
+    "item_filter": "101,102,103,104",
+    "evolve_all": "NONE"
+}
