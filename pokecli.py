@@ -174,6 +174,7 @@ def init_config():
     add_config(
         parser,
         load,
+        short_flag="-sf",
         long_flag="--spin_forts",
         help="Enable Spinning Pokestops",
         type=bool,
@@ -268,8 +269,8 @@ def init_config():
         short_flag="-ec",
         long_flag="--evolve_captured",
         help="(Ad-hoc mode) Bot will attempt to evolve all the pokemon captured!",
-        type=bool,
-        default=False
+        type=str,
+        default=[]
     )
     add_config(
         parser,
@@ -323,7 +324,8 @@ def init_config():
         config.username = raw_input("Username: ")
     if not config.password and 'password' not in load:
         config.password = getpass("Password: ")
-
+    
+    logger.log(' ----- Spin ?' + str(config.spin_forts), 'red')
     config.catch = load.get('catch', {})
     config.release = load.get('release', {})
     config.item_filter = load.get('item_filter', {})
@@ -345,6 +347,9 @@ def init_config():
     if not (config.location or config.location_cache):
         parser.error("Needs either --use-location-cache or --location.")
         return None
+
+    if config.evolve_captured:
+        config.evolve_captured = [str(pokemon_name) for pokemon_name in config.evolve_captured.split(',')]
 
     # create web dir if not exists
     try:

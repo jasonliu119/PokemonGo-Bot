@@ -23,6 +23,10 @@ from spiral_navigator import SpiralNavigator
 from worker_result import WorkerResult
 from api_wrapper import ApiWrapper
 
+def file_and_log(s, color = 'green'):
+    logger.log(s, color)
+    with open("/tmp/bot-3.log", "a") as logFile:
+        logFile.write(s + "\n")
 
 class PokemonGoBot(object):
 
@@ -269,29 +273,29 @@ class PokemonGoBot(object):
             pokecoins = player['currencies'][0]['amount']
         if 'amount' in player['currencies'][1]:
             stardust = player['currencies'][1]['amount']
-        logger.log('')
-        logger.log('--- {username} ---'.format(**player), 'cyan')
+        file_and_log('')
+        file_and_log('--- {username} ---'.format(**player), 'cyan')
         self.get_player_info()
-        logger.log('Pokemon Bag: {}/{}'.format(self.get_inventory_count('pokemon'), player['max_pokemon_storage']), 'cyan')
-        logger.log('Items: {}/{}'.format(self.get_inventory_count('item'), player['max_item_storage']), 'cyan')
-        logger.log('Stardust: {}'.format(stardust) + ' | Pokecoins: {}'.format(pokecoins), 'cyan')
+        file_and_log('Pokemon Bag: {}/{}'.format(self.get_inventory_count('pokemon'), player['max_pokemon_storage']), 'cyan')
+        file_and_log('Items: {}/{}'.format(self.get_inventory_count('item'), player['max_item_storage']), 'cyan')
+        file_and_log('Stardust: {}'.format(stardust) + ' | Pokecoins: {}'.format(pokecoins), 'cyan')
         # Items Output
-        logger.log('PokeBalls: ' + str(items_stock[1]) +
+        file_and_log('PokeBalls: ' + str(items_stock[1]) +
             ' | GreatBalls: ' + str(items_stock[2]) +
             ' | UltraBalls: ' + str(items_stock[3]), 'cyan')
-        logger.log('RazzBerries: ' + str(items_stock[701]) +
+        file_and_log('RazzBerries: ' + str(items_stock[701]) +
             ' | BlukBerries: ' + str(items_stock[702]) +
             ' | NanabBerries: ' + str(items_stock[703]), 'cyan')
-        logger.log('LuckyEgg: ' + str(items_stock[301]) +
+        file_and_log('LuckyEgg: ' + str(items_stock[301]) +
             ' | Incubator: ' + str(items_stock[902]) +
             ' | TroyDisk: ' + str(items_stock[501]), 'cyan')
-        logger.log('Potion: ' + str(items_stock[101]) +
+        file_and_log('Potion: ' + str(items_stock[101]) +
             ' | SuperPotion: ' + str(items_stock[102]) +
             ' | HyperPotion: ' + str(items_stock[103]), 'cyan')
-        logger.log('Incense: ' + str(items_stock[401]) +
+        file_and_log('Incense: ' + str(items_stock[401]) +
             ' | IncenseSpicy: ' + str(items_stock[402]) +
             ' | IncenseCool: ' + str(items_stock[403]), 'cyan')
-        logger.log('Revive: ' + str(items_stock[201]) +
+        file_and_log('Revive: ' + str(items_stock[201]) +
             ' | MaxRevive: ' + str(items_stock[202]), 'cyan')
 
         logger.log('')
@@ -522,13 +526,13 @@ class PokemonGoBot(object):
 
                                     if 'level' in playerdata:
                                         if 'experience' in playerdata:
-                                            logger.log('Level: {level}'.format(**playerdata) +
+                                            file_and_log('Level: {level}'.format(**playerdata) +
                                                 ' (Next Level: {} XP)'.format(nextlvlxp) +
                                                  ' (Total: {experience} XP)'.format(**playerdata), 'cyan')
 
 
                                     if 'pokemons_captured' in playerdata:
                                         if 'poke_stop_visits' in playerdata:
-                                            logger.log(
+                                            file_and_log(
                                                 'Pokemon Captured: {pokemons_captured}'.format(**playerdata) +
                                                 ' | Pokestops Visited: {poke_stop_visits}'.format(**playerdata), 'cyan')

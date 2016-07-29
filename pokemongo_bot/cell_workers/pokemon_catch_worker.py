@@ -179,7 +179,7 @@ class PokemonCatchWorker(object):
                                         iv_display
                                     ), 'blue')
 
-                                    if self.config.evolve_captured:
+                                    if pokemon_name in self.config.evolve_captured:
                                         id_list2 = self.count_pokemon_inventory()
                                         # No need to capture this even for metrics, player stats includes it.
                                         pokemon_to_transfer = list(Set(id_list2) - Set(id_list1))
@@ -193,7 +193,7 @@ class PokemonCatchWorker(object):
                                         status = response_dict['responses']['EVOLVE_POKEMON']['result']
                                         if status == 1:
                                             logger.log(
-                                                    '{} has been evolved!'.format(pokemon_name), 'green')
+                                                    '{} has been selectively evolved!'.format(pokemon_name), 'green')
                                         else:
                                             logger.log(
                                             'Failed to evolve {}!'.format(pokemon_name))
