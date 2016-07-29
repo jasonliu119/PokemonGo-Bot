@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import time
 import logging
 import googlemaps
 import json
@@ -27,9 +27,16 @@ class PokemonGoBot(object):
         self.item_list = json.load(open('data/items.json'))
 
     def start(self):
-        self._setup_logging()
-        self._setup_api()
-        self.stepper = Stepper(self)
+        while True:
+            try:
+                self._setup_logging()
+                self._setup_api()
+                self.stepper = Stepper(self)
+                break
+            except Exception as e:
+                print "[!] start failed; try in 5 sec"
+                time.sleep(5)
+
         random.seed()
 
     def take_step(self):
@@ -131,24 +138,35 @@ class PokemonGoBot(object):
         # provide player position on the earth
         self._set_starting_position()
 
-        if not self.api.login(self.config.auth_service,
+        while not self.api.login(self.config.auth_service,
                               str(self.config.username),
                               str(self.config.password)):
             logger.log('Login Error, server busy', 'red')
-            exit(0)
+            logger.log('Try again in 5 seconds', 'red')
+            time.sleep(5)
+            #exit(0)
 
         # chain subrequests (methods) into one RPC call
 
         # get player profile call
         # ----------------------
-        self.api.get_player()
+        player = {}
+        
+        while True:
+            try:
+                self.api.get_player()
 
-        response_dict = self.api.call()
-        #print('Response dictionary: \n\r{}'.format(json.dumps(response_dict, indent=2)))
-        currency_1 = "0"
-        currency_2 = "0"
+                response_dict = self.api.call()
+            #print('Response dictionary: \n\r{}'.format(json.dumps(response_dict, indent=2)))
+                currency_1 = "0"
+                currency_2 = "0"
 
-        player = response_dict['responses']['GET_PLAYER']['player_data']
+                player = response_dict['responses']['GET_PLAYER']['player_data']
+                break
+            except Exception as e:
+                print "[!] Failed to get player info"
+                time.sleep(2)
+            
 
         # @@@ TODO: Convert this to d/m/Y H:M:S
         creation_date = datetime.datetime.fromtimestamp(
@@ -156,7 +174,15 @@ class PokemonGoBot(object):
 
         pokecoins = '0'
         stardust = '0'
-        balls_stock = self.pokeball_inventory()
+        balls_stock = [-1, -1, -1]
+
+        while True:
+            try:
+                balls_stock = self.pokeball_inventory()
+                break
+            except KeyError as e:
+                time.sleep(2)
+                print "[!] get ball inventory error " + str(e)
 
         if 'amount' in player['currencies'][0]:
             pokecoins = player['currencies'][0]['amount']
@@ -186,14 +212,18 @@ class PokemonGoBot(object):
         self.update_inventory()
 
     def catch_pokemon(self, pokemon):
-        worker = PokemonCatchWorker(pokemon, self)
-        return_value = worker.work()
+        try:
+            worker = PokemonCatchWorker(pokemon, self)
+            return_value = worker.work()
 
-        if return_value == PokemonCatchWorker.BAG_FULL:
-            worker = InitialTransferWorker(self)
-            worker.work()
+            if return_value == PokemonCatchWorker.BAG_FULL:
+                worker = InitialTransferWorker(self)
+                worker.work()
 
-        return return_value
+            return return_value
+        except KeyError:
+            print "[!] Failed to catch"
+            return "Failed to catch" 
 
     def drop_item(self, item_id, count):
         self.api.recycle_inventory_item(item_id=item_id, count=count)
@@ -397,6 +427,8 @@ class PokemonGoBot(object):
     def get_inventory_count(self, what):
         self.api.get_inventory()
         response_dict = self.api.call()
+        pokecount = -1
+        itemcount = -1
         if 'responses' in response_dict:
             if 'GET_INVENTORY' in response_dict['responses']:
                 if 'inventory_delta' in response_dict['responses'][

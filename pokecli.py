@@ -143,8 +143,8 @@ def init_config():
     parser.add_argument("-ec",
                         "--evolve_captured",
                         help="(Ad-hoc mode) Bot will attempt to evolve all the pokemons captured!",
-                        type=bool,
-                        default=False)
+                        type=str,
+                        default=[])
 
     config = parser.parse_args()
     if not config.username and 'username' not in load:
@@ -167,6 +167,9 @@ def init_config():
 
     if config.item_filter:
         config.item_filter = [str(item_id) for item_id in config.item_filter.split(',')]
+
+    if config.evolve_captured:
+        config.evolve_captured = [str(pokemon_name) for pokemon_name in config.evolve_captured.split(',')]
 
     config.release_config = {}
     if os.path.isfile(release_config_json):

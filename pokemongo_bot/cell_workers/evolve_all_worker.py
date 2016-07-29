@@ -36,6 +36,7 @@ class EvolveAllWorker(object):
             for pokemon in evolve_list:
                 try:
                     self._execute_pokemon_evolve(pokemon, cache)
+                    print '[X] evolved ' + str(pokemon[1])
                 except:
                     pass
             id_list2 = self.count_pokemon_inventory()
