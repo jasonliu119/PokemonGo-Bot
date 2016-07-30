@@ -21,7 +21,7 @@ from item_list import Item
 
 def file_and_log(s, color = 'green'):
     logger.log(s, color)
-    with open("/tmp/bot-sf-123.log", "a") as logFile:
+    with open("/tmp/bot-champaign-911.log", "a") as logFile:
         logFile.write(s + "\n")
 
 class PokemonGoBot(object):
