@@ -21,7 +21,7 @@ from item_list import Item
 
 def file_and_log(s, color = 'green'):
     logger.log(s, color)
-    with open("/tmp/bot-champaign-911.log", "a") as logFile:
+    with open("/tmp/bot-sf-123.log", "a") as logFile:
         logFile.write(s + "\n")
 
 class PokemonGoBot(object):
@@ -192,7 +192,7 @@ class PokemonGoBot(object):
             pokecoins = player['currencies'][0]['amount']
         if 'amount' in player['currencies'][1]:
             stardust = player['currencies'][1]['amount']
-
+        file_and_log('---------------------------','green')
         file_and_log('[#] Username: {username}'.format(**player))
         file_and_log('[#] Acccount Creation: {}'.format(creation_date))
         file_and_log('[#] Bag Storage: {}/{}'.format(
