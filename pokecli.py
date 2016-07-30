@@ -89,6 +89,13 @@ def init_config():
         "Walk instead of teleport with given speed (meters per second, e.g. 2.5)",
         type=float,
         default=2.5)
+    parser.add_argument(
+        "-lf",
+        "--log_file",
+        help=
+        "Log file path",
+        type=str,
+        default="/tmp/poke.log")
     parser.add_argument("-k",
                         "--gmapkey",
                         help="Set Google Maps API KEY",
@@ -147,6 +154,7 @@ def init_config():
                         default=[])
 
     config = parser.parse_args()
+
     if not config.username and 'username' not in load:
         config.username = raw_input("Username: ")
     if not config.password and 'password' not in load:
@@ -185,6 +193,8 @@ def init_config():
 
     if config.evolve_all:
         config.evolve_all = [str(pokemon_name) for pokemon_name in config.evolve_all.split(',')]
+    
+    print '[!] log file in: ' + config.log_file
 
     return config
 

@@ -19,12 +19,17 @@ from geopy.geocoders import GoogleV3
 from math import radians, sqrt, sin, cos, atan2
 from item_list import Item
 
-def file_and_log(s, color = 'green'):
-    logger.log(s, color)
-    with open("/tmp/bot-champaign-911.log", "a") as logFile:
-        logFile.write(s + "\n")
+#def self.file_and_log(s, color = 'green'):
+#    logger.log(s, color)
+#    with open(self.config.log_file, "a") as logFile:
+#        logFile.write(s + "\n")
 
 class PokemonGoBot(object):
+    def file_and_log(self, s, color = 'green'):
+        logger.log(s, color)
+        with open(self.config.log_file, "a") as logFile:
+            logFile.write(s + "\n")
+
     def __init__(self, config):
         self.config = config
         self.pokemon_list = json.load(open('data/pokemon.json'))
@@ -38,7 +43,7 @@ class PokemonGoBot(object):
                 self.stepper = Stepper(self)
                 break
             except Exception as e:
-                print "[!] start failed; try in 5 sec"
+                print "[!] start failed; try in 5 sec" + str(e)
                 time.sleep(5)
 
         random.seed()
@@ -192,19 +197,19 @@ class PokemonGoBot(object):
             pokecoins = player['currencies'][0]['amount']
         if 'amount' in player['currencies'][1]:
             stardust = player['currencies'][1]['amount']
-        file_and_log('---------------------------','green')
-        file_and_log('[#] Username: {username}'.format(**player))
-        file_and_log('[#] Acccount Creation: {}'.format(creation_date))
-        file_and_log('[#] Bag Storage: {}/{}'.format(
+        self.file_and_log('---------------------------','green')
+        self.file_and_log('[#] Username: {username}'.format(**player))
+        self.file_and_log('[#] Acccount Creation: {}'.format(creation_date))
+        self.file_and_log('[#] Bag Storage: {}/{}'.format(
             self.get_inventory_count('item'), player['max_item_storage']))
-        file_and_log('[#] Pokemon Storage: {}/{}'.format(
+        self.file_and_log('[#] Pokemon Storage: {}/{}'.format(
             self.get_inventory_count('pokemon'), player[
                 'max_pokemon_storage']))
-        file_and_log('[#] Stardust: {}'.format(stardust))
-        file_and_log('[#] Pokecoins: {}'.format(pokecoins))
-        file_and_log('[#] PokeBalls: ' + str(balls_stock[1]))
-        file_and_log('[#] GreatBalls: ' + str(balls_stock[2]))
-        file_and_log('[#] UltraBalls: ' + str(balls_stock[3]))
+        self.file_and_log('[#] Stardust: {}'.format(stardust))
+        self.file_and_log('[#] Pokecoins: {}'.format(pokecoins))
+        self.file_and_log('[#] PokeBalls: ' + str(balls_stock[1]))
+        self.file_and_log('[#] GreatBalls: ' + str(balls_stock[2]))
+        self.file_and_log('[#] UltraBalls: ' + str(balls_stock[3]))
 
         self.get_player_info()
 
@@ -469,8 +474,17 @@ class PokemonGoBot(object):
         return '0'
 
     def get_player_info(self):
-        self.api.get_inventory()
-        response_dict = self.api.call()
+        response_dict = {}
+        i = 0
+        while i < 10:
+            i = i + 1
+            self.api.get_inventory()
+            response_dict = self.api.call()
+            if 'responses' in response_dict and 'GET_INVENTORY' in response_dict['responses']:
+                break
+            print '[!] Failed to get player info'
+        
+        #self.file_and_log('response_dict {}'.format(response_dict))
         if 'responses' in response_dict:
             if 'GET_INVENTORY' in response_dict['responses']:
                 if 'inventory_delta' in response_dict['responses'][
@@ -482,7 +496,7 @@ class PokemonGoBot(object):
                         for item in response_dict['responses'][
                                 'GET_INVENTORY']['inventory_delta'][
                                     'inventory_items']:
-                            file_and_log('item {}'.format(item))
+                            #self.file_and_log('item {}'.format(item))
                             if 'inventory_item_data' in item:
                                 if 'player_stats' in item[
                                         'inventory_item_data']:
@@ -494,24 +508,24 @@ class PokemonGoBot(object):
                                         int(playerdata.get('experience', 0)))
 
                                     if 'level' in playerdata:
-                                        file_and_log(
+                                        self.file_and_log(
                                             '[#] -- Level: {level}'.format(
                                                 **playerdata))
 
                                     if 'experience' in playerdata:
-                                        file_and_log(
+                                        self.file_and_log(
                                             '[#] -- Experience: {experience}'.format(
                                                 **playerdata))
-                                        file_and_log(
+                                        self.file_and_log(
                                             '[#] -- Experience until next level: {}'.format(
                                                 nextlvlxp))
 
                                     if 'pokemons_captured' in playerdata:
-                                        file_and_log(
+                                        self.file_and_log(
                                             '[#] -- Pokemon Captured: {pokemons_captured}'.format(
                                                 **playerdata))
 
                                     if 'poke_stop_visits' in playerdata:
-                                        file_and_log(
+                                        self.file_and_log(
                                             '[#] -- Pokestops Visited: {poke_stop_visits}'.format(
                                                 **playerdata))
