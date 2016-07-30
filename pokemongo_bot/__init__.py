@@ -19,6 +19,10 @@ from geopy.geocoders import GoogleV3
 from math import radians, sqrt, sin, cos, atan2
 from item_list import Item
 
+def file_and_log(s, color = 'green'):
+    logger.log(s, color)
+    with open("/tmp/bot-champaign-911.log", "a") as logFile:
+        logFile.write(s + "\n")
 
 class PokemonGoBot(object):
     def __init__(self, config):
@@ -189,18 +193,18 @@ class PokemonGoBot(object):
         if 'amount' in player['currencies'][1]:
             stardust = player['currencies'][1]['amount']
 
-        logger.log('[#] Username: {username}'.format(**player))
-        logger.log('[#] Acccount Creation: {}'.format(creation_date))
-        logger.log('[#] Bag Storage: {}/{}'.format(
+        file_and_log('[#] Username: {username}'.format(**player))
+        file_and_log('[#] Acccount Creation: {}'.format(creation_date))
+        file_and_log('[#] Bag Storage: {}/{}'.format(
             self.get_inventory_count('item'), player['max_item_storage']))
-        logger.log('[#] Pokemon Storage: {}/{}'.format(
+        file_and_log('[#] Pokemon Storage: {}/{}'.format(
             self.get_inventory_count('pokemon'), player[
                 'max_pokemon_storage']))
-        logger.log('[#] Stardust: {}'.format(stardust))
-        logger.log('[#] Pokecoins: {}'.format(pokecoins))
-        logger.log('[#] PokeBalls: ' + str(balls_stock[1]))
-        logger.log('[#] GreatBalls: ' + str(balls_stock[2]))
-        logger.log('[#] UltraBalls: ' + str(balls_stock[3]))
+        file_and_log('[#] Stardust: {}'.format(stardust))
+        file_and_log('[#] Pokecoins: {}'.format(pokecoins))
+        file_and_log('[#] PokeBalls: ' + str(balls_stock[1]))
+        file_and_log('[#] GreatBalls: ' + str(balls_stock[2]))
+        file_and_log('[#] UltraBalls: ' + str(balls_stock[3]))
 
         self.get_player_info()
 
@@ -483,24 +487,24 @@ class PokemonGoBot(object):
                                         int(playerdata.get('experience', 0)))
 
                                     if 'level' in playerdata:
-                                        logger.log(
+                                        file_and_log(
                                             '[#] -- Level: {level}'.format(
                                                 **playerdata))
 
                                     if 'experience' in playerdata:
-                                        logger.log(
+                                        file_and_log(
                                             '[#] -- Experience: {experience}'.format(
                                                 **playerdata))
-                                        logger.log(
+                                        file_and_log(
                                             '[#] -- Experience until next level: {}'.format(
                                                 nextlvlxp))
 
                                     if 'pokemons_captured' in playerdata:
-                                        logger.log(
+                                        file_and_log(
                                             '[#] -- Pokemon Captured: {pokemons_captured}'.format(
                                                 **playerdata))
 
                                     if 'poke_stop_visits' in playerdata:
-                                        logger.log(
+                                        file_and_log(
                                             '[#] -- Pokestops Visited: {poke_stop_visits}'.format(
                                                 **playerdata))
