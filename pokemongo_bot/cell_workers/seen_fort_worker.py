@@ -72,6 +72,7 @@ class SeenFortWorker(object):
                         logger.log("[+] " + str(item_count) +
                                     "x " + item_name +
                                     " (Total: " + str(self.bot.item_inventory_count(item_id)) + ")", 'green')
+                        result = 0
 
                         # RECYCLING UNWANTED ITEMS
                         if str(item_id) in self.config.item_filter:
