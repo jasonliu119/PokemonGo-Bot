@@ -53,7 +53,7 @@ class InitialTransferWorker(object):
 
                     pokemon_potential = round((total_IV / 45.0), 2)
 
-                    if pokemon_potential > 0.8 and poke_name not in should_transfer:
+                    if pokemon_potential > 0.85 and poke_name not in should_transfer:
                         print('[!] Keep ' + poke_name + ' with IV ' + str(pokemon_potential))
                         continue
 

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import time
 import logging
 import googlemaps
@@ -197,6 +198,8 @@ class PokemonGoBot(object):
             pokecoins = player['currencies'][0]['amount']
         if 'amount' in player['currencies'][1]:
             stardust = player['currencies'][1]['amount']
+        self.file_and_log('---------------------------','green')
+        self.file_and_log(time.ctime())
         self.file_and_log('---------------------------','green')
         self.file_and_log('[#] Username: {username}'.format(**player))
         self.file_and_log('[#] Acccount Creation: {}'.format(creation_date))
