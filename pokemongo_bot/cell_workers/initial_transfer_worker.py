@@ -5,6 +5,9 @@ from pokemongo_bot import logger
 
 iv_map = {"Eevee":0.8, "Dratini": 0.8, "Magikarp": 0.8, "Poliwag": 0.8, "Growlithe": 0.8, "Exeggcute": 0.8, "Squirtle":0.8,"Bulbasaur":0.8,"Charmander":0.8}
 
+should_transfer = ['Rattata','Pidgey','Zubat','Weedle','Spearow','Drowzee']
+
+
 class InitialTransferWorker(object):
     def __init__(self, bot):
         self.config = bot.config
@@ -50,7 +53,7 @@ class InitialTransferWorker(object):
 
                     pokemon_potential = round((total_IV / 45.0), 2)
 
-                    if pokemon_potential > 0.8:
+                    if pokemon_potential > 0.8 && poke_name not in should_transfer:
                         print('[!] Keep ' + poke_name + ' with IV ' + str(pokemon_potential))
                         continue
 
