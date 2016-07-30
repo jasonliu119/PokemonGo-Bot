@@ -482,7 +482,7 @@ class PokemonGoBot(object):
                         for item in response_dict['responses'][
                                 'GET_INVENTORY']['inventory_delta'][
                                     'inventory_items']:
-                            #print('item {}'.format(item))
+                            file_and_log('item {}'.format(item))
                             if 'inventory_item_data' in item:
                                 if 'player_stats' in item[
                                         'inventory_item_data']:
