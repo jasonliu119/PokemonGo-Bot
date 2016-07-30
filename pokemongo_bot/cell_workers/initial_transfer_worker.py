@@ -4,7 +4,8 @@ from pokemongo_bot.human_behaviour import sleep
 from pokemongo_bot import logger
 
 iv_map = {"Eevee":0.8, "Dratini": 0.8, "Magikarp": 0.8, "Poliwag": 0.8, "Growlithe": 0.8, "Exeggcute": 0.8, "Squirtle":0.8,"Bulbasaur":0.8,"Charmander":0.8}
-
+iv_threshold = 0.85
+always_keep = ["Dragonair","Arcanine","Lapras","Dragonite","Snorlax","Blastoise","Moltres","Articuno","Zapdos","Mew","Mewtwo"]
 should_transfer = ['Rattata','Pidgey','Zubat','Weedle','Spearow','Drowzee']
 
 
@@ -41,6 +42,10 @@ class InitialTransferWorker(object):
                     poke_data = pokemon_groups[id][group_cp[x]]
                     poke_id = poke_data['id']
                     poke_name = self.pokemon_list[id - 1]['Name']
+                    
+                    if poke_name in always_keep:
+                        print "[!] always keep" + poke_name
+                        continue
 
                     iv_stats = ['individual_attack', 'individual_defense', 'individual_stamina']
                     total_IV = 0
@@ -53,7 +58,7 @@ class InitialTransferWorker(object):
 
                     pokemon_potential = round((total_IV / 45.0), 2)
 
-                    if pokemon_potential > 0.85 and poke_name not in should_transfer:
+                    if pokemon_potential > iv_threshold and poke_name not in should_transfer:
                         print('[!] Keep ' + poke_name + ' with IV ' + str(pokemon_potential))
                         continue
 
