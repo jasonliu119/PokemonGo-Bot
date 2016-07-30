@@ -145,19 +145,26 @@ class PokemonCatchWorker(object):
 
                                     if pokemon_name in self.config.evolve_captured:
                                         pokemon_to_transfer = list(Set(id_list2) - Set(id_list1))
-                                        self.api.evolve_pokemon(pokemon_id=pokemon_to_transfer[0])
-                                        response_dict = self.api.call()
+                                        #self.api.evolve_pokemon(pokemon_id=pokemon_to_transfer[0])
+                                        #response_dict = self.api.call()
+                                        i = 1
+                                        while i < 6:
+                                            i = i + 1
+                                            try:
+                                                self.api.evolve_pokemon(pokemon_id=pokemon_to_transfer[0])
+                                                response_dict = self.api.call()
                                         
-                                        try:
-                                            status = response_dict['responses']['EVOLVE_POKEMON']['result']
-                                            if status == 1:
-                                                logger.log(
-                                                        '[#] {} has been selectively evolved!'.format(pokemon_name), 'green')
-                                            else:
-                                                logger.log(
-                                                '[x] Failed to evolve {}!'.format(pokemon_name))
-                                        except Exception as e:
-                                            print str(e)
+                                                status = response_dict['responses']['EVOLVE_POKEMON']['result']
+                                                
+                                                if status == 1:
+                                                    logger.log(
+                                                            '[#] {} has been selectively evolved!'.format(pokemon_name), 'green')
+                                                else:
+                                                    logger.log('[x] Failed to evolve {}!'.format(pokemon_name))
+                                                break
+                                            except Exception as e:
+                                                time.sleep(1)
+                                                print '[!] Failed to evolve because of error ' + str(e)
 
                                     if self.should_release_pokemon(pokemon_name, cp, pokemon_potential, response_dict):
                                         # Transfering Pokemon
