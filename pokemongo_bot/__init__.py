@@ -296,11 +296,18 @@ class PokemonGoBot(object):
         return balls_stock
 
     def item_inventory_count(self, id):
-        self.api.get_player().get_inventory()
+        inventory_dict = {}
+        while True:
+            try:
+                self.api.get_player().get_inventory()
 
-        inventory_req = self.api.call()
-        inventory_dict = inventory_req['responses'][
-            'GET_INVENTORY']['inventory_delta']['inventory_items']
+                inventory_req = self.api.call()
+                inventory_dict = inventory_req['responses'][
+                    'GET_INVENTORY']['inventory_delta']['inventory_items']
+                break
+            except Exception as e:
+                print "[!] Failed to get item inventory"
+                time.sleep(2)
 
         item_count = 0
 
