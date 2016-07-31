@@ -8,6 +8,11 @@ iv_threshold = 0.85
 always_keep = ["Dragonair","Arcanine","Lapras","Dragonite","Snorlax","Blastoise","Moltres","Articuno","Zapdos","Mew","Mewtwo"]
 should_transfer = ['Rattata','Pidgey','Zubat','Weedle','Spearow','Drowzee']
 
+def cp_threshold(name):
+    if name == 'Magikarp':
+        return 180
+    else:
+        return 500
 
 class InitialTransferWorker(object):
     def __init__(self, bot):
@@ -58,7 +63,7 @@ class InitialTransferWorker(object):
 
                     pokemon_potential = round((total_IV / 45.0), 2)
 
-                    if pokemon_potential > iv_threshold and poke_name not in should_transfer:
+                    if pokemon_potential > iv_threshold and poke_name not in should_transfer and group_cp[x] > cp_threshold(poke_name):
                         print('[!] Keep ' + poke_name + ' with IV ' + str(pokemon_potential))
                         continue
 
