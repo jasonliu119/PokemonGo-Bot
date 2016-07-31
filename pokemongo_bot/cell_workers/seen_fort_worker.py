@@ -48,7 +48,10 @@ class SeenFortWorker(object):
                 'FORT_SEARCH' in response_dict['responses']:
 
             spin_details = response_dict['responses']['FORT_SEARCH']
-            if spin_details['result'] == 1:
+
+            if 'result' not in spin_details:
+                logger.log("[!] Invalid spin_details", 'red')
+            elif spin_details['result'] == 1:
                 logger.log("[+] Loot: ", 'green')
                 experience_awarded = spin_details.get('experience_awarded',
                                                       False)
