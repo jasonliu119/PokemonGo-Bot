@@ -64,7 +64,7 @@ class InitialTransferWorker(object):
                     pokemon_potential = round((total_IV / 45.0), 2)
 
                     if pokemon_potential > iv_threshold and poke_name not in should_transfer and group_cp[x] > cp_threshold(poke_name):
-                        logger.log('[!] Keep ' + poke_name + ' with IV ' + str(pokemon_potential), 'green')
+                        logger.log('[!] Keep ' + poke_name + ' with IV ' + str(pokemon_potential), 'yellow')
                         continue
 
                     if self.config.initial_transfer and group_cp[x] > initial_transfer:
