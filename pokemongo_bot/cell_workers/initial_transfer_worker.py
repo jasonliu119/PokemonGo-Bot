@@ -6,7 +6,8 @@ from pokemongo_bot import logger
 iv_map = {"Eevee":0.8, "Dratini": 0.8, "Magikarp": 0.8, "Poliwag": 0.8, "Growlithe": 0.8, "Exeggcute": 0.8, "Squirtle":0.8,"Bulbasaur":0.8,"Charmander":0.8}
 iv_threshold = 0.85
 always_keep = ["Dragonair","Arcanine","Lapras","Dragonite","Snorlax","Blastoise","Moltres","Articuno","Zapdos","Mew","Mewtwo"]
-should_transfer = ['Rattata','Pidgey','Zubat','Weedle','Spearow','Drowzee']
+should_transfer = ['Rattata','Pidgey','Zubat','Weedle','Spearow','Drowzee','Fearow', 'Venonat']
+initial_transfer = 1300
 
 def cp_threshold(name):
     if name == 'Magikarp':
@@ -26,8 +27,7 @@ class InitialTransferWorker(object):
         logger.log(
         '[x] Preparing to transfer all duplicate Pokemon, keeping the highest CP of each type.')
 
-        logger.log('[x] Will NOT transfer anything above CP {}'.format(
-            self.config.initial_transfer))
+        logger.log('[x] Will NOT transfer anything above CP {}'.format(initial_transfer))
         
         keep_map = {"Eevee" : 600, "Dratini": 570, "Growlithe": 570}
        
@@ -49,7 +49,7 @@ class InitialTransferWorker(object):
                     poke_name = self.pokemon_list[id - 1]['Name']
                     
                     if poke_name in always_keep:
-                        print "[!] always keep" + poke_name
+                        logger.log("[!] Always keep " + poke_name, 'green')
                         continue
 
                     iv_stats = ['individual_attack', 'individual_defense', 'individual_stamina']
@@ -64,14 +64,14 @@ class InitialTransferWorker(object):
                     pokemon_potential = round((total_IV / 45.0), 2)
 
                     if pokemon_potential > iv_threshold and poke_name not in should_transfer and group_cp[x] > cp_threshold(poke_name):
-                        print('[!] Keep ' + poke_name + ' with IV ' + str(pokemon_potential))
+                        logger.log('[!] Keep ' + poke_name + ' with IV ' + str(pokemon_potential), 'green')
                         continue
 
-                    if self.config.initial_transfer and group_cp[x] > self.config.initial_transfer:
+                    if self.config.initial_transfer and group_cp[x] > initial_transfer:
                         continue
 
-                    print('[x] Transferring {} with CP {}'.format(
-                        self.pokemon_list[id - 1]['Name'], group_cp[x]))
+                    logger.log(('[x] Transferring {} with CP {}'.format(
+                        self.pokemon_list[id - 1]['Name'], group_cp[x])), 'red')
                     self.api.release_pokemon(
                         pokemon_id=pokemon_groups[id][group_cp[x]]['id'])
                     response_dict = self.api.call()
