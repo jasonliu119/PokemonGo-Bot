@@ -2,9 +2,12 @@ import multiprocessing
 import time, os
 import subprocess, signal
 
+id = '-weijiejason911'
+config = 'config/config-911/'
+
 # bar
 def catch_pokemons_or_get_balls():
-    os.system("python2 pokecli-uiuc.py");
+    os.system("python2 pokecli" + id +  ".py -cf " + config + "config.json");
 
 def run_robot(f, t):
     # Start bar as a process
@@ -15,22 +18,22 @@ def run_robot(f, t):
     p2 = subprocess.Popen(['ps', '-h'], stdout=subprocess.PIPE)
     out, err = p2.communicate()
     for line in out.splitlines():
-        if '-uiuc' in line:
+        if id in line:
             pid = int(line.split(None, 1)[0])
             os.kill(pid, signal.SIGKILL)
 
 def poke(t):
-    print " ---- Do some poke"
-    os.system("rm ./config.json")
-    os.system("cp ./config_poke.json ./config.json")
+    print " ---- Do some poke in " + config
+    os.system("rm " + config  + "config.json")
+    os.system("cp " + config + "config_poke.json " + config + "config.json")
     print "cp config_poke to config"
     run_robot(catch_pokemons_or_get_balls, t)
     time.sleep(3) # wait for clean up
 
 def farm(t):
-    print " ---- Do some farm"
-    os.system("rm ./config.json")
-    os.system("cp ./config_farm.json ./config.json")
+    print " ---- Do some farm in " + config
+    os.system("rm " + config  + "config.json")
+    os.system("cp " + config + "config_farm.json " + config + "config.json")
     print "cp config_farm to config"
     run_robot(catch_pokemons_or_get_balls, t)
     time.sleep(3) # wait for clean up
