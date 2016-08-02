@@ -38,6 +38,6 @@ def farm(t):
 if __name__ == '__main__':
     while True:
         print "\n\n--------- Restart the bot for transferring evolved pokemons "
-        #poke(600)
-        farm(420)
         poke(600)
+        farm(420)
+        #poke(600)
