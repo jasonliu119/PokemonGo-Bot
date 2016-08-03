@@ -24,7 +24,7 @@ def run_robot(f, t):
 
 def poke(t):
     print " ---- Do some poke in " + config
-    os.system("rm " + config  + "config.json")
+    os.system("rm -f " + config  + "config.json")
     os.system("cp " + config + "config_poke.json " + config + "config.json")
     print "cp config_poke to config"
     run_robot(catch_pokemons_or_get_balls, t)
@@ -32,7 +32,7 @@ def poke(t):
 
 def farm(t):
     print " ---- Do some farm in " + config
-    os.system("rm " + config  + "config.json")
+    os.system("rm -f " + config  + "config.json")
     os.system("cp " + config + "config_farm.json " + config + "config.json")
     print "cp config_farm to config"
     run_robot(catch_pokemons_or_get_balls, t)
@@ -41,6 +41,6 @@ def farm(t):
 if __name__ == '__main__':
     while True:
         print "\n\n--------- Restart the bot for transferring evolved pokemons "
-        poke(600)
-        farm(420)
         #poke(600)
+        farm(420)
+        poke(600)
