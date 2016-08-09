@@ -1,13 +1,16 @@
 import multiprocessing
-import time, os
+import time, os, sys
 import subprocess, signal
 
-id = '-wiji217'
-config = 'configs/config' + id + '.json'
+#id = '-weijiejason911'
+id = sys.argv[1]
+print " ---- run bot for account: " + id
+os.system("cp pokecli.py pokecli-" + id + ".py")
+config = 'configs/config-' + id + '.json'
 
 # bar
 def catch_pokemons_or_get_balls():
-    os.system("python2 pokecli" + id +  ".py -cf " + config);
+    os.system("python2 pokecli-" + id +  ".py -cf " + config);
 
 def run_robot(f, t):
     # Start bar as a process
@@ -18,7 +21,7 @@ def run_robot(f, t):
     p2 = subprocess.Popen(['ps', '-h'], stdout=subprocess.PIPE)
     out, err = p2.communicate()
     for line in out.splitlines():
-        if id in line:
+        if "pokecli-" + id in line:
             pid = int(line.split(None, 1)[0])
             os.kill(pid, signal.SIGKILL)
 
