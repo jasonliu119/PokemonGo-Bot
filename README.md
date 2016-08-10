@@ -3,19 +3,17 @@
 PokemonGo bot is a project created by the [PokemonGoF](https://github.com/PokemonGoF) team.
 The project is currently setup in two main branches. `dev` and `master`.
 
+## Help Needed on [Desktop Version](https://github.com/PokemonGoF/PokemonGo-Bot-Desktop)
+
 ## Please submit PR to [Dev branch](https://github.com/PokemonGoF/PokemonGo-Bot/tree/dev)
 
-## Where to get the DLL/SO? A help channel is coming.
-You need to grab them from the Internet.
-
 We use [Slack](https://slack.com) as a web chat. [Click here to join the chat!](https://pokemongo-bot.herokuapp.com)
+You can count on the community in #help channel.
 
 ## Table of Contents
 - [Features](#features)
 - [Wiki](#wiki)
 - [Credits](#credits)
-- [Donation](#donation)
-
 
 ## Features
 - [x] GPS Location configuration
@@ -56,6 +54,7 @@ All information on [Getting Started](https://github.com/PokemonGoF/PokemonGo-Bot
   - [Mac] (https://github.com/PokemonGoF/PokemonGo-Bot/wiki/Installation#installation-mac)
   - [Windows] (https://github.com/PokemonGoF/PokemonGo-Bot/wiki/Installation#installation-windows)
 - [Develop PokemonGo-Bot](https://github.com/PokemonGoF/PokemonGo-Bot/wiki/Develop-PokemonGo-Bot)
+- [Plugins](https://github.com/PokemonGoF/PokemonGo-Bot/blob/dev/docs/plugins.md)
 - [Configuration-files](https://github.com/PokemonGoF/PokemonGo-Bot/wiki/Configuration-files)
 - [Front end web module - Google Maps API] (https://github.com/PokemonGoF/PokemonGo-Bot/wiki/Google-Maps-API-(web-page))
 - [Docker Usage](https://github.com/PokemonGoF/PokemonGo-Bot/wiki/FAQ#how-to-run-with-docker)
