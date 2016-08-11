@@ -143,6 +143,10 @@
 "Gyarados" : {"keep_best_cp": 3, "keep_best_iv": 3},
 "Exeggutor" : {"keep_best_cp": 3, "keep_best_iv": 3},
 
+"Kangaskhan" : {"keep_best_cp": 3, "keep_best_iv": 3},
+"Mr. Mime" : {"keep_best_cp": 3, "keep_best_iv": 3},
+"Farfetch'd" : {"keep_best_cp": 3, "keep_best_iv": 3},
+
       "Arcanine": {"keep_best_cp": 99},
       "Lapras" : {"keep_best_cp": 99},
       "Dragonite": {"keep_best_cp": 99},
