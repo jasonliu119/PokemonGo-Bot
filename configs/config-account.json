@@ -1,0 +1,180 @@
+{
+    "auth_service": "google",
+    "username": "",
+    "password": "",
+    "location": "",
+    "gmapkey": "",
+    "evolve_captured" : "Pidgey,Rattata,Weedle,Zubat,Drowzee,Caterpie,Ekans",
+    "tasks": [
+      {
+        "type": "NicknamePokemon",
+        "config": {
+          "nickname_template": "{iv_pct}_{iv_ads}"
+        }
+      },
+      {
+        "type": "HandleSoftBan"
+      },
+      {
+        "type": "CollectLevelUpReward"
+      },
+      {
+        "type": "IncubateEggs",
+        "config": {
+          "longer_eggs_first": true
+        }
+      },
+      {
+        "type": "TransferPokemon"
+      },
+      {
+        "type": "EvolvePokemon",
+        "config": {
+            "evolve_all": "Pidgey,Rattata,Weedle,Zubat",
+            "first_evolve_by": "cp",
+            "evolve_above_cp": 500,
+            "evolve_above_iv": 0.8,
+            "logic": "or",
+            "evolve_speed": 10,
+            "use_lucky_egg": false
+        }
+      },
+      {
+        "type": "RecycleItems",
+        "config": {
+          "item_filter": {
+            "Pokeball":       { "keep" : 60 },
+            "Ultraball":      { "keep" : 40 },
+            "Greatball":  { "keep" : 0 },
+            "Potion":   { "keep" : 0 },
+            "Super Potion":   { "keep" : 0 },
+            "Hyper Potion":   { "keep" : 30 },
+            "Max Potion": {"keep" : 100},
+            "Revive":         { "keep" : 0 },
+            "Max Revive":         { "keep" : 60 },
+            "Razz Berry":     { "keep" : 50 }
+          }
+        }
+      },
+      {
+        "type": "CatchVisiblePokemon"
+      },
+      {
+        "type": "CatchLuredPokemon"
+      },
+      {
+        "type": "SpinFort"
+      },
+      {
+        "type": "MoveToFort",
+        "config": {
+            "lure_attraction": true,
+            "lure_max_distance": 2000
+        }
+      },
+      {
+        "type": "FollowSpiral",
+        "config": {
+          "diameter": 4,
+          "step_size": 70
+        }
+      }
+    ],
+    "map_object_cache_time": 5,
+    "forts": {
+      "avoid_circles": true,
+      "max_circle_size": 50
+    },
+    "websocket_server": false,
+    "walk": 20,
+    "action_wait_min": 0.5,
+    "action_wait_max": 0.7,
+    "debug": false,
+    "test": false,
+    "health_record": false,
+    "location_cache": false,
+    "distance_unit": "km",
+    "reconnecting_timeout": 15,
+ 
+    "catch_randomize_reticle_factor": 1.0,
+    "catch_randomize_spin_factor": 1.0,
+    "catch": {
+      "any": {"catch_above_cp": 0, "catch_above_iv": 0, "logic": "or"},
+      "// Example of always catching Rattata:": {},
+      "// Rattata": { "always_catch" : true }
+    },
+    "release": {
+      "any": {"release_below_cp": 600, "release_below_iv": 0.87, "logic": "and"},
+      "// Example of always releasing Rattata:": {},
+      "Rattata": {"always_release": true},
+      "Raticate": {"always_release": true},
+      "Weedle": {"always_release": true},
+      "Kakuna": {"always_release": true},
+      "Pidgey": {"always_release": true},
+      "Pidgeotto": {"always_release": true},
+      "Zubat": {"always_release": true},
+      "// Example of keeping 3 stronger (based on CP) Pidgey:": {},
+      "// Example of keeping 2 stronger (based on IV) Zubat:": {},
+      "// Zubat": {"keep_best_iv": 2},
+      "// Also, it is working with any": {},
+      "// any": {"keep_best_cp": 1, "keep_best_iv": 1},
+      "// Example of keeping the 2 strongest (based on CP) and 3 best (based on IV) Zubat:": {},
+      "Dratini": {"keep_best_cp": 2, "keep_best_iv": 3},
+      "Growlithe": {"keep_best_cp": 2, "keep_best_iv": 3},
+      "Charmander" : {"keep_best_cp": 2, "keep_best_iv": 3},
+      "Eevee": {"keep_best_cp": 2, "keep_best_iv": 3},
+      "Poliwag": {"keep_best_cp": 2, "keep_best_iv": 3},
+      "Magikarp" : {"keep_best_cp": 2, "keep_best_iv": 3},
+      "Exeggcute" : {"keep_best_cp": 2, "keep_best_iv": 3},
+
+"Squirtle" : {"keep_best_cp": 2, "keep_best_iv": 3},
+"Bulbasaur" : {"keep_best_cp": 2, "keep_best_iv": 3},
+"Blastoise": {"keep_best_cp": 3, "keep_best_iv": 3},
+"Venusaur" : {"keep_best_cp": 3, "keep_best_iv": 3},
+"Charizard" : {"keep_best_cp": 3, "keep_best_iv": 3},
+"Vaporeon": {"keep_best_cp": 10},
+"Flareon" : {"keep_best_cp": 10},
+"Jolteon" : {"keep_best_cp": 10},
+"Poliwrath": {"keep_best_cp": 3, "keep_best_iv": 3},
+"Golduck" : {"keep_best_cp": 3, "keep_best_iv": 3},
+"Golbat" : {"keep_best_cp": 3, "keep_best_iv": 3},
+"Hypno" : {"keep_best_cp": 3, "keep_best_iv": 3},
+"Pidgeot" : {"keep_best_cp": 3, "keep_best_iv": 3},
+"Gyarados" : {"keep_best_cp": 3, "keep_best_iv": 3},
+"Exeggutor" : {"keep_best_cp": 3, "keep_best_iv": 3},
+
+      "Arcanine": {"keep_best_cp": 99},
+      "Lapras" : {"keep_best_cp": 99},
+      "Dragonite": {"keep_best_cp": 99},
+      "Snorlax": {"keep_best_cp": 99},
+      "Dragonair" : {"keep_best_cp": 99},
+      "Mew" : {"keep_best_cp": 99},
+"Mewtwo" : {"keep_best_cp": 99},
+"Moltres": {"keep_best_cp": 99},
+"Articuno" : {"keep_best_cp": 99},
+"Zapdos" : {"keep_best_cp": 99}
+    },
+    "vips" : {
+         "Any pokemon put here directly force to use Berry & Best Ball to capture, to secure the capture rate!": {},
+        "any": {"catch_above_cp": 1200, "catch_above_iv": 0.9, "logic": "or" },
+        "Lapras": {},
+        "Moltres": {},
+        "Zapdos": {},
+        "Articuno": {},
+
+        "// S-Tier pokemons (if pokemon can be evolved into tier, list the representative)": {},
+        "Mewtwo": {},
+        "Dragonite": {},
+        "Snorlax": {},
+        "// Mew evolves to Mewtwo": {},
+        "Mew": {},
+        "Arcanine": {},
+        "Vaporeon": {},
+        "Gyarados": {},
+        "Exeggutor": {},
+        "Muk": {},
+        "Weezing": {},
+        "Flareon": {}
+
+    }
+}
