@@ -5,10 +5,18 @@ class BaseTask(object):
   TASK_API_VERSION = 1
 
   def __init__(self, bot, config):
+    """
+
+    :param bot:
+    :type bot: pokemongo_bot.PokemonGoBot
+    :param config:
+    :return:
+    """
     self.bot = bot
     self.config = config
     self._validate_work_exists()
     self.logger = logging.getLogger(type(self).__name__)
+    self.enabled = config.get('enabled', True)
     self.initialize()
 
   def _validate_work_exists(self):

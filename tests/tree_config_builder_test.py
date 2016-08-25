@@ -2,7 +2,7 @@ import unittest
 import json
 import os
 from pokemongo_bot import PokemonGoBot, ConfigException, MismatchTaskApiVersion, TreeConfigBuilder, PluginLoader, BaseTask
-from pokemongo_bot.cell_workers import HandleSoftBan, CatchLuredPokemon
+from pokemongo_bot.cell_workers import HandleSoftBan, CatchPokemon
 from pokemongo_bot.test.resources.plugin_fixture import FakeTask, UnsupportedApiTask
 
 def convert_from_json(str):
@@ -63,7 +63,7 @@ class TreeConfigBuilderTest(unittest.TestCase):
         obj = convert_from_json("""[{
                 "type": "HandleSoftBan"
             }, {
-                "type": "CatchLuredPokemon"
+                "type": "CatchPokemon"
             }]""")
 
         builder = TreeConfigBuilder(self.bot, obj)
@@ -71,7 +71,7 @@ class TreeConfigBuilderTest(unittest.TestCase):
 
         self.assertIsInstance(tree[0], HandleSoftBan)
         self.assertIs(tree[0].bot, self.bot)
-        self.assertIsInstance(tree[1], CatchLuredPokemon)
+        self.assertIsInstance(tree[1], CatchPokemon)
         self.assertIs(tree[1].bot, self.bot)
 
     def test_task_with_config(self):
@@ -85,6 +85,25 @@ class TreeConfigBuilderTest(unittest.TestCase):
         builder = TreeConfigBuilder(self.bot, obj)
         tree = builder.build()
         self.assertTrue(tree[0].config.get('longer_eggs_first', False))
+
+    def test_disabling_task(self):
+        obj = convert_from_json("""[{
+                "type": "HandleSoftBan",
+                "config": {
+                    "enabled": false
+                }
+            }, {
+                "type": "CatchPokemon",
+                "config": {
+                    "enabled": true
+                }
+            }]""")
+
+        builder = TreeConfigBuilder(self.bot, obj)
+        tree = builder.build()
+
+        self.assertTrue(len(tree) == 1)
+        self.assertIsInstance(tree[0], CatchPokemon)
 
     def test_load_plugin_task(self):
         package_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'resources', 'plugin_fixture')

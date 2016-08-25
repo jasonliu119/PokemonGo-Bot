@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from pokemongo_bot import inventory
 from pokemongo_bot.constants import Constants
-from pokemongo_bot.step_walker import StepWalker
+from pokemongo_bot.walkers.walker_factory import walker_factory
 from pokemongo_bot.worker_result import WorkerResult
 from pokemongo_bot.base_task import BaseTask
 from utils import distance, format_dist, fort_details
@@ -16,10 +17,11 @@ class MoveToFort(BaseTask):
         self.lure_attraction = self.config.get("lure_attraction", True)
         self.lure_max_distance = self.config.get("lure_max_distance", 2000)
         self.ignore_item_count = self.config.get("ignore_item_count", False)
+        self.walker = self.config.get('walker', 'StepWalker')
 
     def should_run(self):
-        has_space_for_loot = self.bot.has_space_for_loot()
-        if not has_space_for_loot:
+        has_space_for_loot = inventory.Items.has_space_for_loot()
+        if not has_space_for_loot and not self.ignore_item_count:
             self.emit_event(
                 'inventory_full',
                 formatted="Inventory is full. You might want to change your config to recycle more items if this message appears consistently."
@@ -52,8 +54,16 @@ class MoveToFort(BaseTask):
             lat,
             lng
         )
+        noised_dist = distance(
+            self.bot.noised_position[0],
+            self.bot.noised_position[1],
+            lat,
+            lng
+        )
 
-        if dist > Constants.MAX_DISTANCE_FORT_IS_REACHABLE:
+        moving = noised_dist > Constants.MAX_DISTANCE_FORT_IS_REACHABLE if self.bot.config.replicate_gps_xy_noise else dist > Constants.MAX_DISTANCE_FORT_IS_REACHABLE
+
+        if moving:
             fort_event_data = {
                 'fort_name': u"{}".format(fort_name),
                 'distance': format_dist(dist, unit),
@@ -73,9 +83,8 @@ class MoveToFort(BaseTask):
                     data=fort_event_data
                 )
 
-            step_walker = StepWalker(
+            step_walker = walker_factory(self.walker,
                 self.bot,
-                self.bot.config.walk,
                 lat,
                 lng
             )
