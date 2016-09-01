@@ -2,6 +2,8 @@ import multiprocessing
 import time, os, sys
 import subprocess, signal
 
+time_interval_min = 20
+
 #id = '-weijiejason911'
 id = sys.argv[1]
 print " ---- run bot for account: " + id
@@ -44,6 +46,6 @@ def farm(t):
 if __name__ == '__main__':
     while True:
         print "\n\n--------- Restart the bot for transferring evolved pokemons "
-        poke(1800)
-        farm(1800)
+        poke(time_interval_min * 60)
+        #farm(time_interval_min * 60)
         #poke(600)
